@@ -1,5 +1,4 @@
 {
-	"phpcs.enable":   true,
+	"phpcs.enable":   false,
 	"phpcs.standard": "WordPress",
-	"php-cs-fixer.rules": "@WordPress",
 }

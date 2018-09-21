@@ -19,25 +19,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-$base_path = dirname( __FILE__ );
 
+$config = array(
+	'base_path' => dirname( __FILE__ ),
+	'base_url'  => plugin_dir_url( __FILE__ ),
+	'version'   => '0.1',
+);
 
 if ( is_admin() ) {
 	// do admin stuff.
-	require $base_path . '/classes/class-primary-category-admin.php';
-	$admin = new Primary_Category_Admin(
-		array(
-			'base_path' => $base_path,
-		)
-	);
+	require $config['base_path'] . '/classes/class-primary-category-admin.php';
+	$admin = new Primary_Category_Admin( $config );
 	$admin->init();
 } else {
 	// do frontend stuff.
-	require $base_path . '/classes/class-primary-category-frontend.php';
-	$frontend = new Primary_Category_Frontend(
-		array(
-			'base_path' => $base_path,
-		)
-	);
+	require $config['base_path'] . '/classes/class-primary-category-frontend.php';
+	$frontend = new Primary_Category_Frontend( $config );
 	$frontend->init();
 }

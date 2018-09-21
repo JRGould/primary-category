@@ -13,7 +13,7 @@ class Primary_Category_Frontend {
 	}
 
 	function init() {
-		
-	}
 	
+	}
+
 }
