@@ -21,9 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 $config = array(
-	'base_path' => dirname( __FILE__ ),
-	'base_url'  => plugin_dir_url( __FILE__ ),
-	'version'   => '0.1',
+	'base_path'   => dirname( __FILE__ ),
+	'base_url'    => plugin_dir_url( __FILE__ ),
+	'text_domain' => 'primary-category',
+	'version'     => '0.1',
 );
 
 if ( is_admin() ) {

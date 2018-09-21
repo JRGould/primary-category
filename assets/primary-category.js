@@ -1,18 +1,33 @@
 ( function() { return {
 	$categoryMetabox: null,
 	numCategories: 0,
-	primaryCategory: 0,
+	primaryCategory: window.primary_category_data.primary_category,
+	$primaryField: null,
 
 	init: function() {
 		this.$categoryMetabox = $('#taxonomy-category');
 		this.numCategories = this.$categoryMetabox.find('li').length
 
+		this.addPrimaryField();
 		this.updatePrimaryUI();
+		this.updatePrimaryCategoryDisplay();
 		
 		this.$categoryMetabox.on( 'wpListAddEnd', this.updatePrimaryUI.bind(this) );
 		this.$categoryMetabox.on( 'click', 'label.selectit input', this.updatePrimaryUI.bind( this ) );
 
 		this.$categoryMetabox.on( 'click', '.primary-cat-ui button', this.makeItemPrimary.bind( this ) );
+
+	},
+
+	setPrimaryCategory: function( primaryCategory ) {
+		this.primaryCategory    = parseInt( primaryCategory );
+		this.$primaryField.val( this.primaryCategory );
+	},
+
+	addPrimaryField: function() {
+		this.$primaryField = $('<input type=hidden name=_primary-category value=0 />');
+		this.$categoryMetabox.after( this.$primaryField );
+		this.$categoryMetabox.after( '<input type=hidden name=_primary-category_nonce value="' + window.primary_category_data.nonce + '" />' );
 	},
 
 	updatePrimaryUI: function() {
@@ -30,8 +45,8 @@
 					$ui.remove();
 				}
 
-				if( parseInt( this.primaryCategory ) === catId ) {
-					this.primaryCategory = 0;
+				if( this.primaryCategory === catId ) {
+					this.setPrimaryCategory( 0 );
 				}
 
 				return;
@@ -39,7 +54,7 @@
 
 			if( ! $ui.length ) {
 				// TODO: Translations for these strings
-				$catLabel.append( '<span class="primary-cat-ui"><button data-cat-id=' + catId + '>Make Primary</button><span class="affirmative">&nbsp;(Primary)</span></span>' );
+				$catLabel.append( '<span class="primary-cat-ui"><button data-cat-id=' + catId + '>' + window.primary_category_data.strings['make primary'] + '</button><span class="affirmative">&nbsp;(' + window.primary_category_data.strings['primary'] + ')</span></span>' );
 			}
 
 		}.bind( this ) );
@@ -52,7 +67,7 @@
 	makeItemPrimary: function() {
 		event.preventDefault();
 		let catId = event.target.getAttribute('data-cat-id');
-		this.primaryCategory = parseInt( catId );
+		this.setPrimaryCategory( catId );
 		this.updatePrimaryCategoryDisplay();
 	},
 
@@ -63,7 +78,7 @@
 			if( ! newPrimaryCategory ) {
 				return;
 			}
-			this.primaryCategory = newPrimaryCategory;
+			this.setPrimaryCategory( newPrimaryCategory );
 		}
 
 		this.$categoryMetabox.find('li').removeClass( 'isPrimary' );
