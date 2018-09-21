@@ -1,7 +1,8 @@
 <?php
+
 /**
  * WP Admin Functionality
- * 
+ *
  * @package Primary_Category
  */
 class Primary_Category_Admin {
@@ -13,7 +14,7 @@ class Primary_Category_Admin {
 	}
 
 	function init() {
-		if( ! $this->should_init() ) {
+		if ( ! $this->should_init() ) {
 			return;
 		}
 
@@ -25,15 +26,11 @@ class Primary_Category_Admin {
 	function enqueue_scripts() {
 		wp_register_script( 'primary-category-admin-script', $this->config['base_url'] . '/assets/primary-category.js', 'JQuery', $this->config['version'], true );
 
-		wp_localize_script(
-			'primary-category-admin-script',
-			'primary_category_data',
-			array(
+		wp_localize_script( 'primary-category-admin-script', 'primary_category_data', array(
 				'nonce'            => wp_create_nonce( 'save-primary-category-field' ),
 				'primary_category' => $this->get_current_post_primary_category(),
 				'strings'          => $this->get_js_localized_strings(),
-			)
-		);
+			) );
 
 		wp_enqueue_script( 'primary-category-admin-script' );
 
@@ -43,22 +40,23 @@ class Primary_Category_Admin {
 
 	private function get_js_localized_strings() {
 		return array(
-			'primary' => _x( 'Primary', 'main or principal', $this->config['text_domain'] ),
+			'primary'      => _x( 'Primary', 'main or principal', $this->config['text_domain'] ),
 			'make primary' => _x( 'Make Primary', 'designate category as primary category', $this->config['text_domain'] ),
 		);
 	}
 
 	private function should_init() {
 		global $pagenow;
-		if( in_array( $pagenow , array( 'edit.php', 'post.php' ) ) ) {
+		if ( in_array( $pagenow, array( 'edit.php', 'post.php' ) ) ) {
 			return true;
 		}
+
 		return false;
 	}
 
 	private function get_current_post_primary_category() {
 		global $post;
-		if ( ! $post || ! $post->ID) {
+		if ( ! $post || ! $post->ID ) {
 			return 0;
 		}
 		$primary = get_post_meta( $post->ID, '_primary-category', true );
@@ -68,11 +66,11 @@ class Primary_Category_Admin {
 
 	function save_primary_category() {
 		global $post;
-		
+
 		check_admin_referer( 'save-primary-category-field', '_primary-category_nonce' );
 		$primary_category = $_POST['_primary-category'];
-		
-		if( ! is_numeric( $primary_category ) ) {
+
+		if ( ! is_numeric( $primary_category ) ) {
 			$primary_category = 0;
 		}
 

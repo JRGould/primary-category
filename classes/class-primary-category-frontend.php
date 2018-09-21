@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Frontend functionality.
  *
@@ -13,7 +14,7 @@ class Primary_Category_Frontend {
 	}
 
 	function init() {
-	
+
 	}
 
 }
