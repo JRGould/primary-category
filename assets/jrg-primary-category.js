@@ -52,7 +52,6 @@
 			}
 
 			if( ! $ui.length ) {
-				// TODO: Translations for these strings
 				$catLabel.append( '<span class="primary-cat-ui"><button data-cat-id=' + catId + '>' + window.primary_category_data.strings['make primary'] + '</button><span class="affirmative">&nbsp;(' + window.primary_category_data.strings['primary'] + ')</span></span>' );
 			}
 
