@@ -10,6 +10,7 @@ namespace JRG\Primary_Category;
 class Primary_Category {
 
 	protected $config;
+	static $instance;
 
 	/**
 	 * Primary_Category_Admin constructor.
@@ -20,6 +21,7 @@ class Primary_Category {
 	 */
 	public function __construct( $config ) {
 		$this->config = $config;
+		Primary_Category::$instance = $this;
 	}
 
 	/**
@@ -94,7 +96,7 @@ class Primary_Category {
 	 *
 	 * @return bool
 	 */
-	protected function set_primary_category_for_post( $post_id, $primary_category ) {
+	public function set_primary_category_for_post( $post_id, $primary_category ) {
 		return (bool) update_post_meta( $post_id, $this->config['meta_slug'], $primary_category );
 	}
 
@@ -104,7 +106,7 @@ class Primary_Category {
 	 *
 	 * @return int
 	 */
-	protected function get_current_post_primary_category() {
+	public function get_current_post_primary_category() {
 		global $post;
 		if ( ! $post || ! $post->ID ) {
 			return 0;

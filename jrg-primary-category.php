@@ -20,7 +20,6 @@ namespace JRG\Primary_Category;
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-
 $config = array(
 	'base_path'   => dirname( __FILE__ ),
 	'base_url'    => plugin_dir_url( __FILE__ ),
@@ -42,6 +41,7 @@ add_action( 'init', function () use ( $config ) {
  * Instantiate Primary_Category class
  */
 require_once $config['base_path'] . '/classes/class-primary-category.php';
+
 $instance = new Primary_Category( $config );
 $instance->init();
 
@@ -53,13 +53,12 @@ $instance->init();
  * @return int
  */
 function get_primary_category_id( $post_id = 0 ) {
-	global $instance;
 	if ( 0 === $post_id ) {
 		global $post;
 		$post_id = $post->ID;
 	}
 
-	return $instance->get_primary_category_for_post( $post_id );
+	return Primary_Category::$instance->get_primary_category_for_post( $post_id );
 }
 
 /**
