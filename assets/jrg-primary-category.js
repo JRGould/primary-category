@@ -25,9 +25,9 @@
 	},
 
 	addPrimaryField: function() {
-		this.$primaryField = $('<input type=hidden name=_primary-category value=0 />');
+		this.$primaryField = $('<input type=hidden name=_jrg-primary-category value=0 />');
 		this.$categoryMetabox.after( this.$primaryField );
-		this.$categoryMetabox.after( '<input type=hidden name=_primary-category_nonce value="' + window.primary_category_data.nonce + '" />' );
+		this.$categoryMetabox.after( '<input type=hidden name=_jrg-primary-category_nonce value="' + window.primary_category_data.nonce + '" />' );
 	},
 
 	updatePrimaryUI: function() {
@@ -70,7 +70,6 @@
 		this.setPrimaryCategory( catId );
 		this.updatePrimaryCategoryDisplay();
 	},
-
 
 	updatePrimaryCategoryDisplay: function() {
 		if( 0 === this.primaryCategory ) {

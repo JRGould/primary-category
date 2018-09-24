@@ -2,7 +2,7 @@
 /**
  * WP Admin Functionality
  *
- * @package Primary_Category
+ * @package JRG_Primary_Category
  */
 
 namespace JRG\Primary_Category;
@@ -42,18 +42,18 @@ class Primary_Category {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_register_script( 'primary-category-admin-script', $this->config['base_url'] . '/assets/primary-category.js', 'JQuery', $this->config['version'], true );
+		wp_register_script( 'jrg-primary-category-admin-script', $this->config['base_url'] . '/assets/jrg-primary-category.js', 'JQuery', $this->config['version'], true );
 
-		wp_localize_script( 'primary-category-admin-script', 'primary_category_data', array(
-			'nonce'            => wp_create_nonce( 'save-primary-category-field' ),
+		wp_localize_script( 'jrg-primary-category-admin-script', 'primary_category_data', array(
+			'nonce'            => wp_create_nonce( 'save-jrg-primary-category-field' ),
 			'primary_category' => $this->get_current_post_primary_category(),
 			'strings'          => $this->get_js_localized_strings(),
 		) );
 
-		wp_enqueue_script( 'primary-category-admin-script' );
+		wp_enqueue_script( 'jrg-primary-category-admin-script' );
 
-		wp_register_style( 'primary-category-admin-style', $this->config['base_url'] . '/assets/primary-category.css', array(), $this->config['version'] );
-		wp_enqueue_style( 'primary-category-admin-style' );
+		wp_register_style( 'jrg-primary-category-admin-style', $this->config['base_url'] . '/assets/jrg-primary-category.css', array(), $this->config['version'] );
+		wp_enqueue_style( 'jrg-primary-category-admin-style' );
 	}
 
 	/**
@@ -78,10 +78,10 @@ class Primary_Category {
 	public function save_primary_category() {
 		global $post;
 
-		check_admin_referer( 'save-primary-category-field', '_primary-category_nonce' );
+		check_admin_referer( 'save-jrg-primary-category-field', '_jrg-primary-category_nonce' );
 
 		// set to 0 if GET val casts to anything other than a positive int
-		$primary_category = max( (int) $_POST['_primary-category'], 0 );
+		$primary_category = max( (int) $_POST['_jrg-primary-category'], 0 );
 
 		if( $primary_category ) {
 			$this->set_primary_category_for_post( $post->ID, $primary_category );

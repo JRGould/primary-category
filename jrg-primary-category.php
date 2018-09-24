@@ -1,17 +1,17 @@
 <?php
 /**
- * Plugin Name: Primary Category - 10up Exercise Project
+ * Plugin Name: JRG Primary Category
  * Plugin URI:  https://www.jrgould.com
- * Description: Add the ability to specify a primary category for posts
+ * Description: Add the ability to specify a primary category for posts.
  * Version:     0.1
  * Author:      Jeff Gould
  * Author URI:  https://www.jrgould.com
  * License:     GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: primary-category
+ * Text Domain: jrg-primary-category
  * Domain Path: /languages
  *
- * @package Primary_Category
+ * @package JRG_Primary_Category
  */
 
 namespace JRG\Primary_Category;
@@ -24,8 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 $config = array(
 	'base_path'   => dirname( __FILE__ ),
 	'base_url'    => plugin_dir_url( __FILE__ ),
-	'meta_slug'   => '_primary-category',
-	'text_domain' => 'primary-category',
+	'meta_slug'   => '_jrg-primary-category',
+	'text_domain' => 'jrg-primary-category',
 	'version'     => '0.1',
 );
 
@@ -34,7 +34,7 @@ $config = array(
  */
 add_action( 'init', function () use ( $config ) {
 	$locale = apply_filters( 'plugin_locale', get_locale(), $config['text_domain'] );
-	load_textdomain( $config['text_domain'], WP_LANG_DIR . '/primary-category/primary-category-' . $locale . '.mo' );
+	load_textdomain( $config['text_domain'], WP_LANG_DIR . '/jrg-primary-category/jrg-primary-category-' . $locale . '.mo' );
 	load_plugin_textdomain( $config['text_domain'], false, plugin_basename( $config['base_path'] ) . '/languages/' );
 } );
 
