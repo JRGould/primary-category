@@ -14,7 +14,7 @@
  * @package Primary_Category
  */
 
-namespace JRG;
+namespace JRG\Primary_Category;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,6 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $config = array(
 	'base_path'   => dirname( __FILE__ ),
 	'base_url'    => plugin_dir_url( __FILE__ ),
+	'meta_slug'   => '_primary-category',
 	'text_domain' => 'primary-category',
 	'version'     => '0.1',
 );
@@ -37,13 +38,40 @@ add_action( 'init', function () use ( $config ) {
 	load_plugin_textdomain( $config['text_domain'], false, plugin_basename( $config['base_path'] ) . '/languages/' );
 } );
 
-if ( is_admin() ) {
-	// do admin stuff.
-	require_once $config['base_path'] . '/classes/class-primary-category-admin.php';
-	$admin = new Primary_Category_Admin( $config );
-	$admin->init();
+/**
+ * Instantiate Primary_Category class
+ */
+require_once $config['base_path'] . '/classes/class-primary-category.php';
+$instance = new Primary_Category( $config );
+$instance->init();
+
+/**
+ * Helper function. Gets the primary category ID for the current post or the post with the provided ID.
+ *
+ * @param int $post_id
+ *
+ * @return int
+ */
+function get_primary_category_id( $post_id = 0 ) {
+	global $instance;
+	if ( 0 === $post_id ) {
+		global $post;
+		$post_id = $post->ID;
+	}
+
+	return $instance->get_primary_category_for_post( $post_id );
 }
 
-require_once $config['base_path'] . '/classes/class-primary-category-frontend.php';
-$frontend = new Primary_Category_Frontend( $config );
-$frontend->init();
+/**
+ * Helper function. Gets the Term object for the current post or post with provided ID.
+ *
+ * @param int    $post_id
+ * @param string $output
+ *
+ * @return mixed
+ */
+function get_primary_category( $post_id = 0, $output = null ) {
+	$primary_category_id = get_primary_category_id( $post_id );
+
+	return get_term( $primary_category_id, 'category', $output );
+}

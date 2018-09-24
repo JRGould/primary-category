@@ -5,12 +5,19 @@
  * @package Primary_Category
  */
 
-namespace JRG;
+namespace JRG\Primary_Category;
 
-class Primary_Category_Admin {
+class Primary_Category {
 
 	protected $config;
 
+	/**
+	 * Primary_Category_Admin constructor.
+	 *
+	 * @param array $config
+	 *
+	 * @return void
+	 */
 	public function __construct( $config ) {
 		$this->config = $config;
 	}
@@ -21,7 +28,7 @@ class Primary_Category_Admin {
 	 * @return void
 	 */
 	public function init() {
-		if ( ! $this->should_init() ) {
+		if ( ! $this->should_init_admin() ) {
 			return;
 		}
 
@@ -54,9 +61,9 @@ class Primary_Category_Admin {
 	 *
 	 * @return bool
 	 */
-	protected function should_init() {
+	protected function should_init_admin() {
 		global $pagenow;
-		if ( in_array( $pagenow, array( 'edit.php', 'post.php' ) ) ) {
+		if ( is_admin() && in_array( $pagenow, array( 'edit.php', 'post.php' ) ) ) {
 			return true;
 		}
 
