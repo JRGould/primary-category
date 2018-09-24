@@ -65,9 +65,9 @@ function get_primary_category_id( $post_id = 0 ) {
  * Helper function. Gets the Term object for the current post or post with provided ID.
  *
  * @param int    $post_id
- * @param string $output
+ * @param string $output Constant OBJECT, ARRAY_A, or ARRAY_N - defaults to OBJECT
  *
- * @return mixed
+ * @return mixed Term Row from database in requested $output format. Will return null if $term is empty.
  */
 function get_primary_category( $post_id = 0, $output = null ) {
 	$primary_category_id = get_primary_category_id( $post_id );
