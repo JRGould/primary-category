@@ -42,9 +42,8 @@ if ( is_admin() ) {
 	require_once $config['base_path'] . '/classes/class-primary-category-admin.php';
 	$admin = new Primary_Category_Admin( $config );
 	$admin->init();
-} else {
-	// do frontend stuff.
-	require_once $config['base_path'] . '/classes/class-primary-category-frontend.php';
-	$frontend = new Primary_Category_Frontend( $config );
-	$frontend->init();
 }
+
+require_once $config['base_path'] . '/classes/class-primary-category-frontend.php';
+$frontend = new Primary_Category_Frontend( $config );
+$frontend->init();
