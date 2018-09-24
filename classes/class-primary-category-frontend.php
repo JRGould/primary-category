@@ -5,6 +5,9 @@
  *
  * @package Primary_Category
  */
+
+namespace JRG;
+
 class Primary_Category_Frontend {
 
 	public $config;

@@ -1,10 +1,12 @@
 <?php
-
 /**
  * WP Admin Functionality
  *
  * @package Primary_Category
  */
+
+namespace JRG;
+
 class Primary_Category_Admin {
 
 	protected $config;
@@ -15,6 +17,8 @@ class Primary_Category_Admin {
 
 	/**
 	 * Init class specifically rather than when constructed.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		if ( ! $this->should_init() ) {
@@ -27,15 +31,17 @@ class Primary_Category_Admin {
 
 	/**
 	 * Enqueues styles and scripts including localizations / php values to be passed to js.
+	 *
+	 * @return void
 	 */
 	public function enqueue_scripts() {
 		wp_register_script( 'primary-category-admin-script', $this->config['base_url'] . '/assets/primary-category.js', 'JQuery', $this->config['version'], true );
 
 		wp_localize_script( 'primary-category-admin-script', 'primary_category_data', array(
-				'nonce'            => wp_create_nonce( 'save-primary-category-field' ),
-				'primary_category' => $this->get_current_post_primary_category(),
-				'strings'          => $this->get_js_localized_strings(),
-			) );
+			'nonce'            => wp_create_nonce( 'save-primary-category-field' ),
+			'primary_category' => $this->get_current_post_primary_category(),
+			'strings'          => $this->get_js_localized_strings(),
+		) );
 
 		wp_enqueue_script( 'primary-category-admin-script' );
 
@@ -59,16 +65,16 @@ class Primary_Category_Admin {
 
 	/**
 	 * Saves the primary category from posted data for the current post.
+	 *
+	 * @return void
 	 */
 	public function save_primary_category() {
 		global $post;
 
 		check_admin_referer( 'save-primary-category-field', '_primary-category_nonce' );
-		$primary_category = $_POST['_primary-category'];
 
-		if ( ! is_numeric( $primary_category ) ) {
-			$primary_category = 0;
-		}
+		// set to 0 if GET val casts to anything other than a positive int 
+		$primary_category = max( (int) $_POST['_primary-category'], 0 );
 
 		update_post_meta( $post->ID, '_primary-category', $primary_category );
 	}

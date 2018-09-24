@@ -14,11 +14,12 @@
  * @package Primary_Category
  */
 
+namespace JRG;
+
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-
 
 $config = array(
 	'base_path'   => dirname( __FILE__ ),
@@ -38,12 +39,12 @@ add_action( 'init', function () use ( $config ) {
 
 if ( is_admin() ) {
 	// do admin stuff.
-	require $config['base_path'] . '/classes/class-primary-category-admin.php';
+	require_once $config['base_path'] . '/classes/class-primary-category-admin.php';
 	$admin = new Primary_Category_Admin( $config );
 	$admin->init();
 } else {
 	// do frontend stuff.
-	require $config['base_path'] . '/classes/class-primary-category-frontend.php';
+	require_once $config['base_path'] . '/classes/class-primary-category-frontend.php';
 	$frontend = new Primary_Category_Frontend( $config );
 	$frontend->init();
 }
