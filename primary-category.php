@@ -27,6 +27,15 @@ $config = array(
 	'version'     => '0.1',
 );
 
+/**
+ * Load textdomain
+ */
+add_action( 'init', function () use ( $config ) {
+	$locale = apply_filters( 'plugin_locale', get_locale(), $config['text_domain'] );
+	load_textdomain( $config['text_domain'], WP_LANG_DIR . '/primary-category/primary-category-' . $locale . '.mo' );
+	load_plugin_textdomain( $config['text_domain'], false, plugin_basename( $config['base_path'] ) . '/languages/' );
+} );
+
 if ( is_admin() ) {
 	// do admin stuff.
 	require $config['base_path'] . '/classes/class-primary-category-admin.php';
