@@ -1,7 +1,7 @@
 ( function() { return {
 	$categoryMetabox: null,
 	numCategories: 0,
-	primaryCategory: window.primary_category_data.primary_category,
+	primaryCategory: parseInt( window.primary_category_data.primary_category ),
 	$primaryField: null,
 
 	init: function() {
@@ -13,8 +13,7 @@
 		this.updatePrimaryCategoryDisplay();
 		
 		this.$categoryMetabox.on( 'wpListAddEnd', this.updatePrimaryUI.bind(this) );
-		this.$categoryMetabox.on( 'click', 'label.selectit input', this.updatePrimaryUI.bind( this ) );
-
+		this.$categoryMetabox.on( 'change', 'label.selectit input', this.updatePrimaryUI.bind( this ) );
 		this.$categoryMetabox.on( 'click', '.primary-cat-ui button', this.makeItemPrimary.bind( this ) );
 
 	},
