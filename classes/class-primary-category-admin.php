@@ -73,22 +73,22 @@ class Primary_Category_Admin {
 
 		check_admin_referer( 'save-primary-category-field', '_primary-category_nonce' );
 
-		// set to 0 if GET val casts to anything other than a positive int 
+		// set to 0 if GET val casts to anything other than a positive int
 		$primary_category = max( (int) $_POST['_primary-category'], 0 );
 
-		update_post_meta( $post->ID, '_primary-category', $primary_category );
+		if( $primary_category ) {
+			$this->set_primary_category_for_post( $post->ID, $primary_category );
+		}
 	}
 
 	/**
-	 * Assembles translations for js strings.
+	 * @param int $post_id
+	 * @param string $primary_category
 	 *
-	 * @return array
+	 * @return bool
 	 */
-	protected function get_js_localized_strings() {
-		return array(
-			'primary'      => _x( 'Primary', 'main or principal', $this->config['text_domain'] ),
-			'make primary' => _x( 'Make Primary', 'designate category as primary category', $this->config['text_domain'] ),
-		);
+	protected function set_primary_category_for_post( $post_id, $primary_category ) {
+		return (bool) update_post_meta( $post_id, $this->config['meta_slug'], $primary_category );
 	}
 
 
@@ -102,8 +102,27 @@ class Primary_Category_Admin {
 		if ( ! $post || ! $post->ID ) {
 			return 0;
 		}
-		$primary = get_post_meta( $post->ID, '_primary-category', true );
+		return $this->get_primary_category_for_post( $post->ID );
+	}
 
-		return $primary;
+	/**
+	 * @param int $post_id
+	 *
+	 * @return int
+	 */
+	public function get_primary_category_for_post( $post_id ) {
+		return get_post_meta( $post_id, $this->config['meta_slug'], true ) ?: 0;
+	}
+
+	/**
+	 * Assembles translations for js strings.
+	 *
+	 * @return array
+	 */
+	protected function get_js_localized_strings() {
+		return array(
+			'primary'      => _x( 'Primary', 'main or principal', $this->config['text_domain'] ),
+			'make primary' => _x( 'Make Primary', 'designate category as primary category', $this->config['text_domain'] ),
+		);
 	}
 }
